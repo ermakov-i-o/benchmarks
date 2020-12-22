@@ -1,0 +1,29 @@
+dist: focal
+language: cpp
+branches:
+  only:
+    - master
+git:
+  depth: 1
+
+jobs:
+  include:
+    - os: linux
+      arch: amd64
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+              key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
+          packages:
+            - cmake
+            - g++-10
+      env:
+        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-10"
+
+script:
+  - $RUNNER cmake $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DBUILD_SHARED_LIBS=ON -S . -B build 2>&1
+  - $RUNNER cmake --build build -j $(nproc) $BUILD_CONFIG 2>&1

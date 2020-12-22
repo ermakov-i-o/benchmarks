@@ -21,7 +21,7 @@ jobs:
             - g++-10
           update: true
       env:
-        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CMAKE_BIN=/usr/bin/cmake
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-10"
 
     - os: linux
@@ -37,7 +37,7 @@ jobs:
             - g++-10
           update: true
       env:
-        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CMAKE_BIN=/usr/bin/cmake
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-10"
 
     - os: linux
@@ -54,11 +54,9 @@ jobs:
             - clang-11
           update: true
       env:
-        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CMAKE_BIN=/usr/bin/cmake
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang-11"
 
 script:
-  - which cmake
-  - /usr/bin/cmake --version
-  - /usr/bin/cmake $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DBUILD_SHARED_LIBS=ON -S . -B build 2>&1
-  - /usr/bin/cmake --build build -j $(nproc) $BUILD_CONFIG 2>&1
+  - $CMAKE_BIN BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release" $CXX_COMPILER $MAKE_PROGRAM -DBUILD_SHARED_LIBS=ON -S . -B build 2>&1
+  - $CMAKE_BIN --build build -j $(nproc) $BUILD_CONFIG 2>&1

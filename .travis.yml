@@ -55,5 +55,6 @@ jobs:
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang-11"
 
 script:
+  - cmake --version
   - $RUNNER cmake $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DBUILD_SHARED_LIBS=ON -S . -B build 2>&1
   - $RUNNER cmake --build build -j $(nproc) $BUILD_CONFIG 2>&1

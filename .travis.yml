@@ -2,7 +2,7 @@ dist: focal
 language: cpp
 branches:
   only:
-    - master
+    - develop
 git:
   depth: 1
 
